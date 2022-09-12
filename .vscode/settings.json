@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "ios": "cpp",
+    "iostream": "cpp",
+    "deque": "cpp"
+  },
+  "git.ignoreLimitWarning": true
+}
