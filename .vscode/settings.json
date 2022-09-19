@@ -3,7 +3,11 @@
     "ios": "cpp",
     "iostream": "cpp",
     "deque": "cpp",
-    "map": "cpp"
+    "map": "cpp",
+    "array": "cpp",
+    "vector": "cpp",
+    "string": "cpp",
+    "string_view": "cpp"
   },
   "git.ignoreLimitWarning": true
 }
