@@ -3,15 +3,15 @@
 
 using namespace std;
 
-bool flight(vector <int> &arr, int h, int mid) {
-    int totalH = 0;
+bool flight(vector <int> &arr, int f, int mid) {
+    int total = 0;
     for(int i = 0; i < arr.size(); i++) {
-        totalH += (arr[i] + mid - 1) / mid;
+        total += (arr[i] + mid - 1) / mid;
     }
-    if(totalH > h) {
-        return false;
+    if(total > f) {
+        return true;
     } 
-    return true;
+    return false;
 }
 
 int main() {
@@ -34,12 +34,12 @@ int main() {
         int mid = l + (r - l) / 2;
         if(flight(v, f, mid)) {
             res = mid;
-            r = mid - 1;
-        } else {
             l = mid + 1;
+        } else {
+            r = mid - 1;
         }
     }
-    cout << res << '\n';
+    cout << res + 1 << '\n';
 
     return 0;
 }
