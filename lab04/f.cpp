@@ -1,5 +1,4 @@
 #include <iostream>
-#include <algorithm>
 #include <queue>
 
 using namespace std;
@@ -29,25 +28,14 @@ struct BST {
             return cur;
         }
 
-        void _inorder(Node *cur) {
+        void _preorder(Node *cur) {
             if(!cur) {
-                return;
+                return ;
             }
-            _inorder(cur->left);
             cout << cur->value << " ";
-            _inorder(cur->right);
+            _preorder(cur->left);
+            _preorder(cur->right);
         }
-
-        int _maxDepth(Node *node) {
-            if(!node) {
-                return 0;
-            }
-            int leftDepth = _maxDepth(node->left);
-            int rightDepth = _maxDepth(node->right);
-            return max(leftDepth, rightDepth) + 1;
-        }
-
-        
 
     public:
         BST() {
@@ -58,36 +46,35 @@ struct BST {
             root = _insert(root, value);
         }
 
-        void inorder() {
-            _inorder(root);
+        void preorder() {
+            _preorder(this->root);
         }
 
-        int maxDistance() {
+        int solve() {
+            int cnt = 0;
             queue <Node*> q;
-            int result = -1;
             q.push(this->root);
             while(!q.empty()) {
                 Node *cur = q.front();
-                if(cur->left) q.push(cur->left);
-                if(cur->right) q.push(cur->right);
-                int distance = _maxDepth(q.front()->left) + _maxDepth(q.front()->right) + 1;
-                result = max(result, distance);
+                if(q.front()->left) q.push(cur->left);
+                if(q.front()->right) q.push(cur->right);
+                if(cur->left && cur->right) {
+                    cnt++;
+                }
                 q.pop();
             }
-            return result;
+            return cnt;
         }
 };
 
 int main() {
-    int n;
-    cin >> n;
-    BST *bst = new BST();
+    int n; cin >> n;
+    BST *tree = new BST();
     for(int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        bst->insert(x);
+        int x; cin >> x;
+        tree->insert(x);
     }
-    cout << bst->maxDistance() << "\n";
+    cout << tree->solve() << "\n";
 
     return 0;
 }
