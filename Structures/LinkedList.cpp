@@ -17,58 +17,61 @@ struct LinkedList {
         this->head = nullptr;
     }
 
-    void addAtHead(int x) {
-        Node *newNode = new Node(x);
+    void addAtHead(int value) {
+        Node *newNode = new Node(value);
         if(!head) {
             head = newNode;
             return;
-        } else {
-            newNode->next = head;
-            head = newNode;
         }
+        newNode->next = head;
+        head = newNode;
     }
 
-    void addAtTail(int x) {
-        Node *newNode = new Node(x);
+    void addAtTail(int value) {
+        Node *newNode = new Node(value);
         if(!head) {
             head = newNode;
             return;
-        }
-
+        } 
         Node *tmp = head;
         while(tmp->next) {
             tmp = tmp->next;
         }
         tmp->next = newNode;
-    } 
+    }
 
     void print() {
         if(!head) {
-            cout << "Linked List is Empty.\n";
+            cout << "Linked List is Empty\n";
             return;
         }
 
-        Node *cur = head;
-        while(cur) {
-            cout << cur->value << " ";
-            cur = cur->next;
+        Node *tmp = head;
+        while(tmp) {
+            cout << tmp->value << " ";
+            tmp = tmp->next;
         }
     }
 };
 
 int main() {
     LinkedList *ll = new LinkedList();
-
-    // adding element in the head of linked list;
+    
+    // check for empty linked list
+    ll->print();
+    
+    // adding element in the head of linked list
     ll->addAtHead(2);
     ll->addAtHead(1);
 
     // adding element in the tail of linked list
     ll->addAtTail(3);
+    ll->addAtTail(4);
 
     // printing elements in linked list
     ll->print();
-    cout << endl;
+
+    cout << "\n";
 
     return 0;
 }
