@@ -1,57 +1,73 @@
 #include <iostream>
+#include <algorithm>
 #include <vector>
 
 using namespace std;
 
-string merge(string left, string right) {
-    string result = "";
+vector <string> merge(vector<string> left, vector<string> right) {
+    vector<string> result;
     int l = 0, r = 0;
     while(l < left.size() && r < right.size()) {
-        if(left[l] < right[r]) {
-            result += left[l];
-            l++;
-        } else {
-            result += right[r];
+        if(left[l].size() > right[r].size()) {
+            result.push_back(right[r]);
             r++;
+        } else {
+            result.push_back(left[l]);
+            l++;
         }
     }
     while(l < left.size()) {
-        result += left[l];
+        result.push_back(left[l]);
         l++;
     }
     while(r < right.size()) {
-        result += right[r];
+        result.push_back(right[r]);
         r++;
     }
     return result;
 }
 
-string mergeSort(string s, int l, int r) {
+vector <string> mergeSort(vector <string> v, int l, int r) {
     if(l == r) {
-        string result = "";
-        result += s[l];
+        vector <string> result;
+        result.push_back(v[l]);
         return result;
     }
     int mid = l + (r - l) / 2;
-    string left = mergeSort(s, l, mid);
-    string right = mergeSort(s, mid + 1, r);
+    vector <string> left = mergeSort(v, l, mid);
+    vector <string> right = mergeSort(v, mid + 1, r);
     return merge(left, right);
 }
 
 int main() {
-    int t;
-    cin >> t;
-    
-    vector <string> v;
-    string s;
+    string tmp; 
+    getline(cin, tmp);
+    int t = stoi(tmp);
+    vector <vector <string> > v;
+
     while(t--) {
-        while(cin >> s) {
-            v.push_back(mergeSort(s, 0, s.size() - 1));
+        string s; 
+        getline(cin, s);
+        s += ' ';
+        vector <string> v1;
+        string str = "";
+        for(int i = 0; i < s.size(); i++) {
+            if(s[i] == ' ') {
+                v1.push_back(str);
+                str = "";
+            } else {
+                str += s[i];
+            }
         }
+        v1 = mergeSort(v1, 0, v1.size() - 1);
+        v.push_back(v1);
     }
 
     for(int i = 0; i < v.size(); i++) {
-        cout << v[i] << " ";
+        for(int j = 0; j < v[i].size(); j++) {
+            cout << v[i][j] << " ";
+        }
+        cout << "\n";
     }
 
     return 0;
