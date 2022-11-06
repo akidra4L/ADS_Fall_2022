@@ -8,7 +8,8 @@
     "vector": "cpp",
     "string": "cpp",
     "string_view": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "iosfwd": "cpp"
   },
   "git.ignoreLimitWarning": true,
   "C_Cpp.errorSquiggles": "Disabled"
