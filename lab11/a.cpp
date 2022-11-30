@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector <pair <int, pair <int, int> > > g;
+vector <pair <long long, pair <int, int> > > g;
 vector<int> p(1000001);
 
 int dsuGet(int v) {
@@ -28,7 +28,8 @@ int main() {
     p.resize(n);
 
     while(q--) {
-        int l, r, cost;
+        int l, r;
+        long long cost;
         cin >> l >> r >> cost;
         l--; r--;
         for(int i = l; i < r; i++) {
@@ -46,9 +47,9 @@ int main() {
         p[i] = i;
     }
 
-    int total = 0;
+    long long total = 0;
     for(int i = 0; i < g.size(); i++) {
-        int cost = g[i].first;
+        long long cost = g[i].first;
         int a = g[i].second.first;
         int b = g[i].second.second;
         if(dsuGet(a) != dsuGet(b)) {

@@ -52,9 +52,9 @@ int main() {
         res.push_back(cnt);
         int x = dsuGet(i);
         if(s.find(x) == s.end()) {
+            s.insert(x);
             cnt++;
         }
-        s.insert(x);
     }
 
     reverse(res.begin(), res.end());
