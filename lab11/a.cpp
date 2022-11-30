@@ -1,21 +1,22 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 vector <pair <int, pair <int, int> > > g;
-vector<int> p;
+vector<int> p(1000001);
 
 int dsuGet(int v) {
 	if (v == p[v]) {
 		return v;
 	}
-	return p[v] = dsu_get(p[v]);
+	return p[v] = dsuGet(p[v]);
 }
 
 void dsuUnite(int a, int b) {
-	a = dsu_get(a);
-	b = dsu_get(b);
+	a = dsuGet(a);
+	b = dsuGet(b);
 	if (a != b) {
         p[a] = b;
     }
@@ -29,6 +30,7 @@ int main() {
     while(q--) {
         int l, r, cost;
         cin >> l >> r >> cost;
+        l--; r--;
         for(int i = l; i < r; i++) {
             for(int j = i + 1; j <= r; j++) {
                 if(i != j) {
@@ -37,6 +39,24 @@ int main() {
             }
         }
     }
+
+    sort(g.begin(), g.end());
+
+    for(int i = 0; i < n; i++) {
+        p[i] = i;
+    }
+
+    int total = 0;
+    for(int i = 0; i < g.size(); i++) {
+        int cost = g[i].first;
+        int a = g[i].second.first;
+        int b = g[i].second.second;
+        if(dsuGet(a) != dsuGet(b)) {
+            total += cost;
+            dsuUnite(a, b);
+        }
+    }
+    cout << total << "\n";
 
     return 0;
 }
