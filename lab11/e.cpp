@@ -1,10 +1,11 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <unordered_set>
 
 using namespace std;
 
-vector <pair <int, int> > g;
+vector<int> gr[200500];
 vector <int> p;
 
 int dsuGet(int v) {
@@ -14,12 +15,14 @@ int dsuGet(int v) {
 	return p[v] = dsuGet(p[v]);
 }
 
-void dsuUnite(int a, int b) {
+bool dsuUnite(int a, int b) {
 	a = dsuGet(a);
 	b = dsuGet(b);
 	if (a != b) {
         p[a] = b;
+        return true;
     }
+    return false;
 }
 
 int main() {
@@ -31,18 +34,12 @@ int main() {
     for(int i = 0; i < m; i++) {
         int a, b; cin >> a >> b;
         a--; b--;
-        g.push_back(make_pair(a, b));
+        gr[a].push_back(b);
+        gr[b].push_back(a);
     }
 
     for(int i = 0; i < n; i++) {
         p[i] = i;
-    }
-
-    for(int i = 0; i < g.size(); i++) {
-        int a = g[i].first, b = g[i].second;
-        if(dsuGet(a) != dsuGet(b)) {
-            dsuUnite(a, b);
-        }
     }
 
     unordered_set <int> s;
@@ -50,10 +47,11 @@ int main() {
     int cnt = 0;
     for(int i = n - 1; i >= 0; i--) {
         res.push_back(cnt);
-        int x = dsuGet(i);
-        if(s.find(x) == s.end()) {
-            s.insert(x);
-            cnt++;
+        cnt++;
+        for(int j = 0; j < gr[i].size(); j++) {
+            if(gr[i][j] > i && dsuUnite(i, gr[i][j])) {
+                cnt--;
+            }
         }
     }
 
