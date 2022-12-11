@@ -1,52 +1,40 @@
 #include <iostream>
 #include <vector>
-#include <set>
 #include <algorithm>
+ 
 using namespace std;
-
+ 
+int n, g[501][501], x[501];
+bool used[501];
 int main() {
 	int n; cin >> n;
-	int d[n][n];
-	set <int> toIgnore; 
-	for (int i = 0; i < n; i++) {
-		toIgnore.insert(i); 
-		for (int j = 0; j < n; j++) {
-			cin >> d[i][j];
-		}
-	}
-	
-	for (int q = 0; q < n; q++) {
-        int x; cin >> x;
-		x--;
-		toIgnore.erase(x);
-		int ans = 0;
-		for (int k = 0; k < n; k++) {
-			for (int i = 0; i < n; i++) {
-				if (toIgnore.find(i) != toIgnore.end()) {
-                    continue;
+    for(int i = 1; i <= n; i++) {
+        for(int j = 1; j <= n; j++) {
+            cin >> g[i][j];
+        }
+    }
+
+    for(int i = 1; i <= n; i++) {
+        cin >> x[i];
+    }
+
+	vector <int> v;
+    for(int k = 1; k <= n; k++) {
+        used[x[k]] = true;
+        int tmp = 0;
+        for(int i = 1; i <= n; i++) {
+            for(int j = 1; j <= n; j++) { 
+                g[i][j] = min(g[i][j], g[i][x[k]] + g[x[k]][j]);
+                if(used[i] && used[j]) {
+                    tmp = max(g[i][j], tmp);
                 }
-				for (int j = 0; j < n; j++) {
-					if (toIgnore.find(j) != toIgnore.end()) {
-                        continue;
-                    }
-					if (d[i][j] > d[i][k] + d[k][j]) {
-						d[i][j] = d[i][k] + d[k][j];
-					}
-				}
-			}
-		}
-		for (int i = 0; i < n; i++) {
-			if (toIgnore.find(i) != toIgnore.end()) {
-                continue;
             }
-			for (int j = 0; j < n; j++) {
-				if (toIgnore.find(j) != toIgnore.end()) {
-                    continue;
-                }
-				ans = max(ans, d[i][j]);
-			}
-		}
-		cout << ans << "\n";
+        }
+        v.push_back(tmp);
+    }
+
+    for(int i = 0; i < v.size(); i++) {
+		printf("%d\n", v[i]);
 	}
 
 	return 0;
