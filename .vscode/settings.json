@@ -10,7 +10,8 @@
     "string_view": "cpp",
     "ostream": "cpp",
     "iosfwd": "cpp",
-    "unordered_map": "cpp"
+    "unordered_map": "cpp",
+    "unordered_set": "cpp"
   },
   "git.ignoreLimitWarning": true,
   "C_Cpp.errorSquiggles": "Disabled"

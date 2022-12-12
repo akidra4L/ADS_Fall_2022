@@ -1,56 +1,59 @@
-#include <iostream>
+#include <iostream> 
 #include <vector>
-#include <algorithm>
-using namespace std;
+#include <algorithm> 
+#include <set> 
 
-int m, n;
-struct Edge {
-    int from, to, cost;
-    Edge(int from, int to, int cost) {
-        this->from = from;
-        this->to = to;
-        this->cost = cost;
-    }
-};
-vector <Edge> e;
+using namespace std; 
 
-int fordBellman(int s, int f) {
-	vector<int> d(n + 1, 1e9);
-	d[s] = 0;
-	while (true) {
-		bool hasChanged = false;
-		for (int j = 0; j < m; j++) {
-			if (d[e[j].to] > d[e[j].from] + e[j].cost) {
-				d[e[j].to] = d[e[j].from] + e[j].cost;
-				hasChanged = true;
+#define INF 1e9
+int N = 200005;
+vector <pair <int,int> > g[200005]; 
+vector <int> d(N, INF); 
+int n, m; 
+
+int dijkstra(int from, int to) {
+	d.clear();
+	for(int i = 0; i < N; i++) {
+		d[i] = INF;
+	}
+	d[from] = 0;
+	set <pair <int, int> > q;
+	q.insert(make_pair(d[from], from));
+	while(!q.empty()) {
+		int v = q.begin()->second;
+		q.erase(q.begin());
+		for(int i = 0; i < g[v].size(); i++) {
+			int y = g[v][i].first;
+			int len = g[v][i].second;
+			if(d[v] + len < d[y]) {
+				q.erase(make_pair(d[y], y));
+				d[y] = d[v] + len;
+				q.insert(make_pair(d[y], y));
 			}
 		}
-		if (!hasChanged) break;
 	}
-	return d[f];
+	return d[to];
 }
 
 int main() {
 	cin >> n >> m;
-	for (int i = 0; i < m; i++) {
-		int u, v, w;
-		cin >> u >> v >> w;
-		e.push_back(Edge(u, v, w));
+	for(int i = 0; i < m; i++) {
+		int v, u, c;
+		cin >> v >> u >> c;
+		g[v].push_back(make_pair(u, c));
+		g[u].push_back(make_pair(v, c));
 	}
-    int s, a, b, f;
+
+	int s, a, b, f;
 	cin >> s >> a >> b >> f;
 
-	int sa = fordBellman(s, a);
-	int sb = fordBellman(s, b);
-	int ab = fordBellman(a, b);
-	int ba = fordBellman(b, a);
-	int af = fordBellman(a, f);
-	int bf = fordBellman(b, f);
+	int x = dijkstra(s, a) + dijkstra(a, b) + dijkstra(b, f);
+	int y = dijkstra(s, b) + dijkstra(b, a) + dijkstra(a, f); 
 
-	if (sa + ab + bf >= 1e9 && sb + ba + af >= 1e9) {
-		cout << "-1\n";
+	if(min(x, y) <= INF) {
+		cout << min(x, y) << "\n";
 	} else {
-		cout << min(sa + ab + bf, sb + ba + af) << "\n";
+		cout << "-1\n";
 	}
 
 	return 0;
